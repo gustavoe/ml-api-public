@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 
+import settings
+from uuid import uuid4
+import redis
+import json
+import time
+
 ########################################################################
 # COMPLETAR AQUI: Crear conexion a redis y asignarla a la variable "db".
 ########################################################################
-db = None
+db = redis.Redis(port=settings.REDIS_PORT, host=settings.REDIS_HOST, db=settings.REDIS_DB_ID)
 ########################################################################
 
 
@@ -39,7 +45,12 @@ def model_predict(text_data):
     #       string.
     # Luego utilice rpush de Redis para encolar la tarea.
     #################################################################
-    raise NotImplementedError
+    job_id = str(uuid4())
+    job_data = {
+        "id": job_id,
+        "text": text_data
+    }
+    db.rpush('service_queue',json.dumps(job_data))
     #################################################################
 
     # Iterar hasta recibir el resultado
@@ -53,7 +64,22 @@ def model_predict(text_data):
         #     3. Si obtuvimos respuesta, extraiga la predicción y el
         #        score para ser devueltos como salida de esta función.
         #################################################################
-        raise NotImplementedError
+        output = db.get(job_id)
+        if output is not None:
+            output = json.loads(output.decode('utf-8'))
+            prediction = output['prediction']
+            score = output['score']
+
+            db.delete(job_id)
+            break
+
+        time.sleep(2)
         #################################################################
+
+        print(json.dumps({
+            'text': text_data,
+            'prediction': prediction,
+            'score': score
+        }))
 
     return prediction, score
