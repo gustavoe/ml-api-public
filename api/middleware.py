@@ -70,16 +70,18 @@ def model_predict(text_data):
             prediction = output['prediction']
             score = output['score']
 
+            print(json.dumps({
+                'text': text_data,
+                'prediction': prediction,
+                'score': score
+            }))
+
+
             db.delete(job_id)
             break
 
         time.sleep(2)
         #################################################################
 
-        print(json.dumps({
-            'text': text_data,
-            'prediction': prediction,
-            'score': score
-        }))
 
     return prediction, score

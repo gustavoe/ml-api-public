@@ -1,5 +1,23 @@
 # Despliegue de sistemas predictivos
-> Diplodatos 2019
+> Diplodatos 2020
+
+Alumno: Mario Gustavo Echeverria
+
+## Práctico 1
+
+### Resolución:
+Ver primer commit
+
+## Práctico 2
+
+### Parte 1: 
+[Video Parte 1]
+(https://www.loom.com/share/f89df987642b4f4884a1848aa479f38b)
+
+### Parte 2: 
+[Video Parte 2]
+(https://www.loom.com/share/248ace4f0885440abe7f397e371e7178)
+
 
 ## Instalar y ejecutar
 
